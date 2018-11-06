@@ -11,6 +11,7 @@ Replace the three arguments with your own.
 Second is a GET request to whatever valid endpoint you decide to use.
 Run command: 
     java -cp ".:./json-20180813.jar" APIAccess URL_FOR_GET USERNAME PASSWORD get
+    
 Again, replace the 3 arguments with your own.  
 
 If you'd like to access a different POST endpoint, refer to the API documentation and modify the code accordingly.
