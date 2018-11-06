@@ -1,6 +1,7 @@
 # SimpleJavaHTTP
 
 From command line, navigate to folder where APIAccess.java is located and compile using the command: 
+
     javac -cp ".:./json-20180813.jar" APIAccess.java
 
 There are 2 options for running...
