@@ -202,19 +202,47 @@ public class APIAccess {
 		
 		APIAccess a = new APIAccess();
 
-		// I know this is a bit ridiculous. Generally wouldn't make these kinds of calls using the command line		
-		String URL = args[0];
-		String username = args[1];
-		String password = args[2];
-		String method = args[3];
-		String domain = args[4];
-		String userID = args[5];
-		String fName = args[6];
-		String lName = args[7];
-		String phone = args[8];
-		String email = args[9];
-		String topic = args[10];
-		String tmpID = args[11];
+		// I know this is a bit ridiculous. Generally wouldn't make these kinds of calls using the command line	
+		
+		String URL = "", username = "", password = "", method = "", domain = "", userID = "", fName = "", lName = "",
+				phone = "", email = "", topic = "", tmpID = "";
+		
+		if (args.length > 0) {
+			URL = args[0];
+		}
+		if (args.length >= 1) {
+			username = args[1];
+		}
+		if (args.length >= 2) {
+			password = args[2];
+		}
+		if (args.length >= 3) {
+			method = args[3];
+		}
+		if (args.length >= 4) {
+			domain = args[4];
+		}
+		if (args.length >= 5) {
+			userID = args[5];
+		}
+		if (args.length >= 6) {
+			fName = args[6];
+		}
+		if (args.length >= 7) {
+			lName = args[7];
+		}
+		if (args.length >= 8) {
+			phone = args[8];
+		}
+		if (args.length >= 9) {
+			email = args[9];
+		}
+		if (args.length >= 10) {
+			topic = args[10];
+		}
+		if (args.length >= 11) {
+			tmpID = args[11];
+		}
 		String[] routeTypes = {"email"};
 
 		try {			
