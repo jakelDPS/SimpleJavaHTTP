@@ -205,7 +205,7 @@ public class APIAccess {
 		System.out.println(response.toString() + "\n");
 	}
 	
-	private void sendFreeform(String URL, String sender, String domain, String username, String subject, String body, ArrayList<String> routeTypes) throws IOException {
+	private void sendFreeform(String URL, String sender, String domain, ArrayList<String> usernames, String subject, String body, ArrayList<String> routeTypes) throws IOException {
 		
 		String freeformLink = URL + "/api/sendNotification";
 		URL url = new URL(freeformLink);
@@ -216,9 +216,6 @@ public class APIAccess {
 		
 		con.setDoOutput(true);
 		con.setDoInput(true);
-		
-		ArrayList<String> usernames = new ArrayList<String>();
-		usernames.add(username);
 		
 		ArrayList<String> attachments = new ArrayList<String>();
 		
@@ -259,7 +256,7 @@ public class APIAccess {
 		System.out.println(response.toString() + "\n");
 	}
 	
-	private void sendTemplate(String URL, String sender, String domain, String username, String templateID, JSONArray subs) throws IOException {
+	private void sendTemplate(String URL, String sender, String domain, ArrayList<String> usernames, String templateID, JSONArray subs) throws IOException {
 		String templateLink = URL + "/api/sendTemplateNotification";
 		URL url = new URL(templateLink);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -269,9 +266,6 @@ public class APIAccess {
 		
 		con.setDoOutput(true);
 		con.setDoInput(true);
-		
-		ArrayList<String> usernames = new ArrayList<String>();
-		usernames.add(username);
 		
 		ArrayList<String> attachments = new ArrayList<String>();
 		
@@ -408,7 +402,9 @@ public class APIAccess {
 			
 		APIAccess a = new APIAccess();
 		JSONArray jsonSubs = new JSONArray();
-		
+		ArrayList<String> usernamesTemplate = new ArrayList<String>();
+		ArrayList<String> usernamesFree = new ArrayList<String>();
+
 		Scanner scan = new Scanner(System.in);
 		
 		System.out.println("Enter IP Address and port number (ex. http://10.1.4.16:8089)\n");
@@ -481,12 +477,22 @@ public class APIAccess {
 					break;
 					
 				case "freeform": 
+					usernamesFree.clear();
 					System.out.println("Enter Sender User ID: ");
 					String senderFree = scan.nextLine();
 					System.out.println("Enter Domain of Recipient: ");
 					String domainFree = scan.nextLine();
-					System.out.println("Enter Username of Recipient: ");
-					String usernameFree = scan.nextLine();
+					
+					while (true) {
+						System.out.println("Enter Usernames of recipients (Press 'Enter' after each one, type 'done' when finished): ");
+						String usernameFree = scan.nextLine();
+						if (usernameFree.equals("done")) {
+							break;
+						} else {
+							usernamesFree.add(usernameFree);
+						}
+					}
+					
 					System.out.println("Enter Notification Subject: ");
 					String subjectFree = scan.nextLine();
 					System.out.println("Enter Notification Body: ");
@@ -509,17 +515,25 @@ public class APIAccess {
 						routeTypesFree.add("push");
 					}
 					
-					a.sendFreeform(URL, senderFree, domainFree, usernameFree, subjectFree, bodyFree, routeTypesFree);
+					a.sendFreeform(URL, senderFree, domainFree, usernamesFree, subjectFree, bodyFree, routeTypesFree);
 					break;
 					
 				case "template": 
 					jsonSubs = new JSONArray();
+					usernamesTemplate.clear();
 					System.out.println("Enter Sender User ID: ");
 					String senderTemplate = scan.nextLine();
-					System.out.println("Enter Domain of Recipient: ");
+					System.out.println("Enter Domain of Recipient(s): ");
 					String domainTemplate = scan.nextLine();
-					System.out.println("Enter Username of Recipient: ");
-					String usernameTemplate = scan.nextLine();
+					while (true) {
+						System.out.println("Enter Usernames of recipients (Press 'Enter' after each one, type 'done' when finished): ");
+						String usernameTemplate = scan.nextLine();
+						if (usernameTemplate.equals("done")) {
+							break;
+						} else {
+							usernamesTemplate.add(usernameTemplate);
+						}
+					}
 					System.out.println("Enter Template ID: ");
 					String templateIDTemplate = scan.nextLine();
 					while (true) {
@@ -536,7 +550,7 @@ public class APIAccess {
 						}						
 					}					
 					
-					a.sendTemplate(URL, senderTemplate, domainTemplate, usernameTemplate, templateIDTemplate, jsonSubs);
+					a.sendTemplate(URL, senderTemplate, domainTemplate, usernamesTemplate, templateIDTemplate, jsonSubs);
 					break;
 					
 				case "routes":
